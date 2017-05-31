@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="../../../bower_components/polymer/polymer.html" rel="import">
+  <link href="../../../bower_components/iron-ajax/iron-ajax.html" rel="import">
+</head>
+
+<dom-module id="grid-lines">
+    <template>
+      <style>
+        :host {
+
+        }
+        .grid {
+          box-sizing: border-box;
+          border-right: 1px solid gray;
+          width: 10%;
+          height: 600px;
+          position: absolute;
+          top: 0;
+          opacity: .2;
+        }
+        .grid:nth-child(odd) {
+          background-color: #00bfa5;
+        }
+      </style>
+
+      <div id="grid_target"></div>
+  </template>
+  <script>
+    Polymer({
+      is: "grid-lines",
+      properties: {
+        gridNumber: {
+          type: Number,
+          observer: '_resetGrid'
+        },
+        scale: {
+          type: Number,
+          value: 1,
+          observer: '_resetGrid'
+        }
+      },
+      _resetGrid: function() {
+        buildGrid(this, this.gridNumber, this.scale);
+      }
+    });
+
+    var GridLine = function(index, scale) {
+      scale = scale/100;
+      var gl = document.createElement('div');
+      gl.classList.add('grid');
+      gl.style.width = (10*scale)+'%';
+      gl.style.left = ((index*10)*scale)+'%';
+
+      return gl;
+    }
+
+    var buildGrid = function(el, n, scale) {
+      var target = el.$.grid_target;
+      target.innerHTML="";
+      for(var i = 0; i<n; i++) {
+        target.appendChild(new GridLine(i, scale));
+      }
+    };
+  </script>
+</dom-module>

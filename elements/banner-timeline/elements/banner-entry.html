@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="../../../bower_components/polymer/polymer.html" rel="import">
+  <link href="../../../bower_components/iron-ajax/iron-ajax.html" rel="import">
+</head>
+
+<dom-module id="banner-entry">
+
+    <template>
+      <style>
+        :host {
+          position: absolute;
+          background-color: rgba(255,0,0,.9);
+          border: 1px solid black;
+          border-radius: 10px;
+          width: 850px;
+          height: 50px;
+          display: block;
+          z-index: 20;
+          top: 20px;
+          transition: width .1s;
+        }
+      </style>
+      <div class="inner"></div>
+  </template>
+  <script>
+    Polymer({
+      is: "banner-entry",
+      attached: function() {
+        this._setPos();
+      },
+      _setPos: function() {
+        var z = this.scale/100;
+        this.style.left = (this.position.left*z)+"%";
+        this.style.width = (this.position.width*z)+"%";
+      },
+      properties: {
+        position: {
+          type: Object,
+          value: {}
+        },
+        scale: {
+          type: Number,
+          value: 100,
+          observer: '_setPos'
+        }
+      }
+    });
+  </script>
+</dom-module>
